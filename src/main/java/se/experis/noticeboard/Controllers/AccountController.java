@@ -1,6 +1,8 @@
 package se.experis.noticeboard.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,10 +18,11 @@ public class AccountController {
     private UserRepository repo;
 
     @PostMapping("/create")
-    public boolean createUser(@RequestBody Account account) {
+    public ResponseEntity<Boolean> createUser(@RequestBody Account account) {
 
         account = repo.save(account);
+        HttpStatus res = HttpStatus.OK;
 
-        return true;
+        return new ResponseEntity<>(true, res);
     }
 }
