@@ -49,7 +49,7 @@ public class NoticeController { // Kanske lägga till response med statuskod på
             Notice notice = noticeRepo.get();
 
             displayNotice.setNoticeTitle(notice.getTitle());
-            displayNotice.setNoticeUserName(notice.getUser().getUserName());
+            displayNotice.setNoticeUserName(notice.getAccount().getUserName());
             displayNotice.setNoticeContent(notice.getContent());
             displayNotice.setNoticeTimestamp(notice.getTimestamp());
             displayNotice.setComments(notice.getComments());

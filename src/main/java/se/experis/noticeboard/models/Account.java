@@ -13,7 +13,7 @@ import java.util.List;
                 ObjectIdGenerators.PropertyGenerator.class,
         property = "id"
 )
-public class User {
+public class Account {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,10 +30,10 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<Comment> comments;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<Notice> notices;
 
     //GETTERS & SETTERS

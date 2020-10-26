@@ -20,10 +20,6 @@ public class Notice {
     private Long id;
 
     @Column(nullable = false)
-
-    private Long userId;
-
-    @Column(nullable = false)
     private String title;
 
     @Column(nullable = false)
@@ -36,19 +32,19 @@ public class Notice {
     private Date editedTimestamp;
 
     @ManyToOne
-    private User user;
+    private Account account;
 
-    @OneToMany(mappedBy = "comment", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY)
     private List<Comment> comments;
 
     //GETTERS & SETTERS
 
-    public User getUser() {
-        return user;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public List<Comment> getComments() {
@@ -65,14 +61,6 @@ public class Notice {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getTitle() {

@@ -6,19 +6,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.experis.noticeboard.Repositories.UserRepository;
-import se.experis.noticeboard.models.User;
+import se.experis.noticeboard.models.Account;
 
 @RestController
-@RequestMapping(value = "/user")
-public class UserController {
+@RequestMapping(value = "/account")
+public class AccountController {
 
     @Autowired
     private UserRepository repo;
 
     @PostMapping("/create")
-    public boolean createUser(@RequestBody User user) {
+    public boolean createUser(@RequestBody Account account) {
 
-        user = repo.save(user);
+        account = repo.save(account);
 
         return true;
     }

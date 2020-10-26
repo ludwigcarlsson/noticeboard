@@ -20,14 +20,6 @@ public class Comment {
     @JsonIgnore
     private Long id;
 
-    @JsonIgnore
-    @Column(nullable = false)
-    private Long noticeId;
-
-    @Column(nullable = false)
-    @JsonIgnore
-    private Long userId;
-
     @Column(nullable = false)
     private String content;
 
@@ -38,9 +30,9 @@ public class Comment {
     private Date editedTimestamp;
 
     @ManyToOne
-    private User user;
+    private Account account;
 
-    @OneToOne
+    @ManyToOne
     private Notice notice;
 
     //GETTERS & SETTERS
@@ -53,12 +45,12 @@ public class Comment {
         this.notice = notice;
     }
 
-    public User getUser() {
-        return user;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
     public Long getId() {
@@ -67,22 +59,6 @@ public class Comment {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getNoticeId() {
-        return noticeId;
-    }
-
-    public void setNoticeId(Long noticeId) {
-        this.noticeId = noticeId;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public String getContent() {
