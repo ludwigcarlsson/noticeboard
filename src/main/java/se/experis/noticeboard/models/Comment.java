@@ -1,6 +1,7 @@
 package se.experis.noticeboard.models;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
@@ -16,16 +17,16 @@ public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
+    @JsonIgnore
     @Column(nullable = false)
     private Long noticeId;
 
     @Column(nullable = false)
+    @JsonIgnore
     private Long userId;
-
-    @Column(nullable = true)
-    private String commentTitle;
 
     @Column(nullable = false)
     private String content;
@@ -82,14 +83,6 @@ public class Comment {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getCommentTitle() {
-        return commentTitle;
-    }
-
-    public void setCommentTitle(String commentTitle) {
-        this.commentTitle = commentTitle;
     }
 
     public String getContent() {
