@@ -2,6 +2,7 @@ package se.experis.noticeboard.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import se.experis.noticeboard.Repositories.CommentRepository;
 import se.experis.noticeboard.Repositories.NoticeRepository;
 import se.experis.noticeboard.models.Comment;
 import se.experis.noticeboard.models.Notice;
@@ -15,12 +16,15 @@ import java.util.Optional;
 public class NoticeController { // Kanske lägga till response med statuskod på samtliga etc.. ?
 
     @Autowired
-    private NoticeRepository repo;
+    private NoticeRepository nRepo;
+
+    @Autowired
+    private CommentRepository cRepo;
 
     @PostMapping("/newNotice")
-    public boolean createNotice(@RequestBody Notice noticeBody) {
+    public boolean createNotice(@RequestBody Notice notice) {
 
-        repo.save(noticeBody);
+        nRepo.save(notice);
         System.out.println("Created notice");
 
         return true;
@@ -28,7 +32,7 @@ public class NoticeController { // Kanske lägga till response med statuskod på
 
     @GetMapping("/notices")
     public List<Notice> getAllNotices() {
-        var temp = repo.findAll();
+        var temp = nRepo.findAll();
         System.out.println("Gathered all notices");
 
         return temp;
@@ -42,10 +46,10 @@ public class NoticeController { // Kanske lägga till response med statuskod på
 //    }
 
     @PatchMapping("/notices/:{id}")
-    public boolean changeNotice(@PathVariable int id, @RequestBody Notice changedNotice) {
+    public boolean changeNotice(@PathVariable long id, @RequestBody Notice changedNotice) {
 
-        if (repo.existsById(id)) {
-            Optional<Notice> noticeRepo = repo.findById(id);
+        if (nRepo.existsById(id)) {
+            Optional<Notice> noticeRepo = nRepo.findById(id);
             Notice notice = noticeRepo.get();
 
             if (changedNotice.getTitle() != null) {
@@ -56,42 +60,67 @@ public class NoticeController { // Kanske lägga till response med statuskod på
             }
             notice.setEditedTimestamp(new Date());
 
-            repo.save(notice);
+            nRepo.save(notice);
             System.out.println("Updated notice");
         } else {
             System.out.println("Could not find notice");
-            return false;
         }
 
         return true;
     }
 
     @PostMapping("/notices/:{id}/comments")
-    public boolean createComment(@RequestBody Comment comment, @PathVariable int id) {
+    public boolean createComment(@RequestBody Comment comment, @PathVariable long id) {
+
+        cRepo.save(comment);
+        System.out.println("Created notice");
+
         return true;
     }
 
     @PatchMapping("/notices/:{noticeId}/comments/:{commentId}")
-    public boolean changeComment(@RequestBody Comment comment, @PathVariable int noticeId, @PathVariable int commentId) {
+    public boolean changeComment(@RequestBody Comment changedComment, @PathVariable long noticeId, @PathVariable long commentId) {
+
+        if (nRepo.existsById(noticeId) && cRepo.existsById(commentId)) {
+            Optional<Comment> commentRepo = cRepo.findById(commentId);
+            Comment comment = commentRepo.get();
+
+            if (changedComment.getContent() != null) {
+                comment.setContent(changedComment.getContent());
+            }
+            comment.setEditedTimestamp(new Date());
+
+            cRepo.save(comment);
+            System.out.println("Updated comment");
+        } else {
+            System.out.println("Could not find comment");
+        }
 
         return true;
     }
 
     @DeleteMapping("/notices/:{id}")
-    public boolean deleteNotice(@PathVariable int id) {
+    public boolean deleteNotice(@PathVariable long id) {
 
-        if (repo.existsById(id)) {
-            repo.deleteById(id);
+        if (nRepo.existsById(id)) {
+            nRepo.deleteById(id);
             System.out.println("Deleted notice");
         } else {
             System.out.println("Could not delete notice");
-            return false;
         }
+
         return true;
     }
 
-    @DeleteMapping("/notices/:{id}/comments/:{id}")
-    public boolean deleteComment(@PathVariable int id) {
+    @DeleteMapping("/notices/:{noticeId}/comments/:{commentId}")
+    public boolean deleteComment(@PathVariable long noticeId, @PathVariable long commentId) {
+
+        if (nRepo.existsById(noticeId) && cRepo.existsById(commentId)) {
+            cRepo.deleteById(commentId);
+            System.out.println("Deleted comment");
+        } else {
+            System.out.println("Could not delete comment");
+        }
 
         return true;
     }
