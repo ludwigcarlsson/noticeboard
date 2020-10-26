@@ -10,20 +10,22 @@ import java.util.Date;
 @JsonIdentityInfo(
         generator =
                 ObjectIdGenerators.PropertyGenerator.class,
-        property = "id"
+                property = "id"
 )
-public class Notice {
+public class Comment {
 
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
-
-    private Long userId;
+    private Long noticeId;
 
     @Column(nullable = false)
-    private String title;
+    private Long userId;
+
+    @Column(nullable = true)
+    private String commentTitle;
 
     @Column(nullable = false)
     private String content;
@@ -42,6 +44,14 @@ public class Notice {
         this.id = id;
     }
 
+    public Long getNoticeId() {
+        return noticeId;
+    }
+
+    public void setNoticeId(Long noticeId) {
+        this.noticeId = noticeId;
+    }
+
     public Long getUserId() {
         return userId;
     }
@@ -50,12 +60,12 @@ public class Notice {
         this.userId = userId;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCommentTitle() {
+        return commentTitle;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCommentTitle(String commentTitle) {
+        this.commentTitle = commentTitle;
     }
 
     public String getContent() {
