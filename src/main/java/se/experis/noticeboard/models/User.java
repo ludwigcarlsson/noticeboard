@@ -5,12 +5,13 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @JsonIdentityInfo(
         generator =
                 ObjectIdGenerators.PropertyGenerator.class,
-                    property = "id"
+        property = "id"
 )
 public class User {
 
@@ -29,6 +30,29 @@ public class User {
     @Column(nullable = false)
     private String email;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Comment> comments;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Notice> notices;
+
+    //GETTERS & SETTERS
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public List<Notice> getNotices() {
+        return notices;
+    }
+
+    public void setNotices(List<Notice> notices) {
+        this.notices = notices;
+    }
 
     public Long getId() {
         return id;

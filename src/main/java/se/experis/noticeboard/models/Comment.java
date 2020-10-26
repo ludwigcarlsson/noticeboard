@@ -10,7 +10,7 @@ import java.util.Date;
 @JsonIdentityInfo(
         generator =
                 ObjectIdGenerators.PropertyGenerator.class,
-                property = "id"
+        property = "id"
 )
 public class Comment {
 
@@ -33,8 +33,32 @@ public class Comment {
     @Column(nullable = false)
     private Date timestamp;
 
-    @Column(nullable = true)
+    @Column
     private Date editedTimestamp;
+
+    @ManyToOne
+    private User user;
+
+    @OneToOne
+    private Notice notice;
+
+    //GETTERS & SETTERS
+
+    public Notice getNotice() {
+        return notice;
+    }
+
+    public void setNotice(Notice notice) {
+        this.notice = notice;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public Long getId() {
         return id;
