@@ -1,10 +1,34 @@
 package se.experis.noticeboard.models;
 
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import javax.persistence.*;
+
+@Entity
+@JsonIdentityInfo(
+        generator =
+                ObjectIdGenerators.PropertyGenerator.class,
+                    property = "id"
+)
 public class User {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Column(nullable = false)
     private Long id;
+
+    @Column(nullable = false)
     private String userName;
+
+    @Column(nullable = false)
     private String password;
+
+    @Column(nullable = false)
     private String email;
+
 
     public Long getId() {
         return id;
@@ -38,10 +62,4 @@ public class User {
         this.email = email;
     }
 
-    public User(Long id, String userName, String password, String email) {
-        this.id = id;
-        this.userName = userName;
-        this.password = password;
-        this.email = email;
-    }
 }
