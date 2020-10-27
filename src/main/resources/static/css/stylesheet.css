@@ -1,3 +1,7 @@
+body{
+    background-color:#0d5ef100;
+}
+
 
                                 /* NAVBAR/HEADER */
 .padding-nav{
@@ -5,8 +9,8 @@
 }
 
 .margin-nav{
-    margin-left:63rem;
-    margin-right:57rem;
+    margin-left:67rem;
+    margin-right:54rem;
 }
 
 .nav-title-size{
@@ -25,14 +29,51 @@
 
                                 /* NOTICE */
 .notice-container{
-    background-color:red;
+    color:black;
     display: flex;
     margin-left: 18%;
     margin-right: 18%;
     padding: 2%;
     margin-top: 2%;
     flex-direction: column;
+    border-radius: 8px;
 }
 
+.notice-item{
+    background-color: #fff;
+    box-shadow:  0 4px 8px 0 rgba(0,0,0,0.3);
+    border-radius:8px;
+    margin-bottom: 2%;
+    border-style:solid;
+    border-width:1px;
+}
+.notice-item:hover{
+
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+
+}
+
+.notice-title{
+    text-align: center;
+}
+
+.notice-title h1 {
+    font-size:3.5rem;
+    font-weight: bolder;
+}
+
+.notice-description{
+    text-align:center;
+    margin-left: 1%;
+    margin-right: 1%;
+    font-weight: normal;
+    
+}
+
+.notice-signature{
+    text-align:right;
+    font-weight: lighter;
+    margin-right:1%;
+}
 
 
