@@ -34,12 +34,13 @@ public class AccountController {
         String hashedPassword = passwordEncoder.encode(account.getPassword());
         account.setPassword(hashedPassword);
 
+        Account newAccount = repo.save(account);
         try {
-            status = repo.save(account) != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
+            status = newAccount != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
         } catch(Exception e) {
             status = HttpStatus.CONFLICT;
         }
-        SessionKeeper.getInstance().updateSession(session.getId());
+        SessionKeeper.getInstance().addSession(session.getId(), newAccount.getId());
         return new ResponseEntity<>(status);
     }
     
@@ -48,9 +49,9 @@ public class AccountController {
         HttpStatus status;
         
         // finds account by username and matches the typed password with the hashed account password
-        Account found = repo.findByUserName(account.getUserName());
-        if(found != null && passwordEncoder.matches(account.getPassword(), found.getPassword())) {
-            SessionKeeper.getInstance().updateSession(session.getId());
+        Account foundAccount = repo.findByUserName(account.getUserName());
+        if(foundAccount != null && passwordEncoder.matches(account.getPassword(), foundAccount.getPassword())) {
+            SessionKeeper.getInstance().addSession(session.getId(), foundAccount.getId());
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.UNAUTHORIZED;
