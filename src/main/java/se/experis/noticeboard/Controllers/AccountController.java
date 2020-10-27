@@ -30,17 +30,17 @@ public class AccountController {
     @PostMapping("/create")
     public ResponseEntity<Void> createAccount(@RequestBody Account account, HttpSession session) {
         HttpStatus status;
-        // hashes password
+
         String hashedPassword = passwordEncoder.encode(account.getPassword());
         account.setPassword(hashedPassword);
 
-        Account newAccount = repo.save(account);
         try {
+            Account newAccount = repo.save(account);
             status = newAccount != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
+            SessionKeeper.getInstance().addSession(session.getId(), newAccount.getId());
         } catch(Exception e) {
             status = HttpStatus.CONFLICT;
         }
-        SessionKeeper.getInstance().addSession(session.getId(), newAccount.getId());
         return new ResponseEntity<>(status);
     }
     
@@ -52,6 +52,9 @@ public class AccountController {
         Account foundAccount = repo.findByUserName(account.getUserName());
         if(foundAccount != null && passwordEncoder.matches(account.getPassword(), foundAccount.getPassword())) {
             SessionKeeper.getInstance().addSession(session.getId(), foundAccount.getId());
+            // long tempId = SessionKeeper.getInstance().getSessionAccountId(session.getId());
+            // System.out.println(tempId);
+            
             status = HttpStatus.OK;
         } else {
             status = HttpStatus.UNAUTHORIZED;
@@ -67,7 +70,7 @@ public class AccountController {
     
     @GetMapping("/loginStatus")
     public ResponseEntity<Boolean> loginStatus(HttpSession session) {
-        return new ResponseEntity<>(SessionKeeper.getInstance().checkSession(session.getId(), false), HttpStatus.OK);
+        return new ResponseEntity<>(SessionKeeper.getInstance().isLoggedIn(session.getId()), HttpStatus.OK);
     }
 
 }
