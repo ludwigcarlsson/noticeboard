@@ -1,11 +1,22 @@
 package se.experis.noticeboard.models;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
-import javax.persistence.*;
-import java.util.Date;
-import java.util.List;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @JsonIdentityInfo(
@@ -25,10 +36,12 @@ public class Notice {
     @Column(nullable = false)
     private String content;
 
-    @Column(nullable = false)
+    @Column
+    @CreationTimestamp
     private Date timestamp;
 
     @Column
+    @UpdateTimestamp
     private Date editedTimestamp;
 
     @ManyToOne
