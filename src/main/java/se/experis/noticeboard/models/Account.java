@@ -1,11 +1,19 @@
 package se.experis.noticeboard.models;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToMany;
+
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
-import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @JsonIdentityInfo(
@@ -21,13 +29,13 @@ public class Account {
     @Column(nullable = false)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String userName;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
@@ -36,7 +44,7 @@ public class Account {
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
     private List<Notice> notices;
 
-    //GETTERS & SETTERS
+    // GETTERS & SETTERS
 
     public List<Comment> getComments() {
         return comments;
