@@ -16,7 +16,6 @@ import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @JsonIdentityInfo(
@@ -41,7 +40,6 @@ public class Notice {
     private Date timestamp;
 
     @Column
-    @UpdateTimestamp
     private Date editedTimestamp;
 
     @ManyToOne

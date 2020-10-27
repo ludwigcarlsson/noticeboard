@@ -35,7 +35,6 @@ public class Comment {
     private Date timestamp;
 
     @Column
-    @UpdateTimestamp
     private Date editedTimestamp;
 
     @ManyToOne
