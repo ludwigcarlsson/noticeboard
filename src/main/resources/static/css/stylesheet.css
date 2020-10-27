@@ -1,0 +1,38 @@
+
+                                /* NAVBAR/HEADER */
+.padding-nav{
+    padding:1.5rem;
+}
+
+.margin-nav{
+    margin-left:63rem;
+    margin-right:57rem;
+}
+
+.nav-title-size{
+    font-size:2rem;
+}
+
+                                /* FOOTER */
+.footer-text{
+    color:#fff;
+}
+
+.footer-padding{
+    padding:15px 0 15px 0;
+}
+
+
+                                /* NOTICE */
+.notice-container{
+    background-color:red;
+    display: flex;
+    margin-left: 18%;
+    margin-right: 18%;
+    padding: 2%;
+    margin-top: 2%;
+    flex-direction: column;
+}
+
+
+
