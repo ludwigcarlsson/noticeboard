@@ -1,6 +1,7 @@
 package se.experis.noticeboard.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -40,9 +41,15 @@ public class NoticeController {
             Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
             Account account = accountRepo.get();
             notice.setAccount(account);
-            noticeRepository.save(notice);
-            System.out.println("Created notice");
-            status = HttpStatus.CREATED;
+            try {
+                Notice newNotice = noticeRepository.save(notice);
+                System.out.println(newNotice);
+                status = newNotice != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
+            } catch (DataIntegrityViolationException e) {
+                status = HttpStatus.BAD_REQUEST;
+            } catch (Exception e) {
+                status = HttpStatus.CONFLICT;
+            }
         } else {
             System.out.println("Not logged in");
             status = HttpStatus.UNAUTHORIZED;
@@ -108,9 +115,12 @@ public class NoticeController {
                     }
                     notice.setEditedTimestamp(new Date());
 
-                    noticeRepository.save(notice);
-                    System.out.println("Updated notice");
-                    status = HttpStatus.OK;
+                    try {
+                        Notice newNotice = noticeRepository.save(notice);
+                        status = newNotice != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+                    } catch (Exception e) {
+                        status = HttpStatus.CONFLICT;
+                    }
                 } else {
                     System.out.println("Not your notice");
                     status = HttpStatus.UNAUTHORIZED;
@@ -140,9 +150,12 @@ public class NoticeController {
                 Notice notice = noticeRepo.get();
                 comment.setNotice(notice); // Relate comment to the chosen notice
 
-                commentRepository.save(comment);
-                System.out.println("Created comment");
-                status = HttpStatus.CREATED;
+                try {
+                    Comment newComment = commentRepository.save(comment);
+                    status = newComment != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
+                } catch (Exception e) {
+                    status = HttpStatus.CONFLICT;
+                }
             } else {
                 System.out.println("Could not find comment");
                 status = HttpStatus.NOT_FOUND;
@@ -174,9 +187,12 @@ public class NoticeController {
                     }
                     comment.setEditedTimestamp(new Date());
 
-                    commentRepository.save(comment);
-                    System.out.println("Updated comment");
-                    status = HttpStatus.OK;
+                    try {
+                        Comment newComment = commentRepository.save(comment);
+                        status = newComment != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
+                    } catch (Exception e) {
+                        status = HttpStatus.CONFLICT;
+                    }
                 } else {
                     System.out.println("Not your comment");
                     status = HttpStatus.UNAUTHORIZED;
