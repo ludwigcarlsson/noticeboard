@@ -2,12 +2,14 @@ package se.experis.noticeboard.Controllers;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.PropertyValueException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,8 +40,17 @@ public class AccountController {
             Account newAccount = repo.save(account);
             status = newAccount != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
             SessionKeeper.getInstance().addSession(session.getId(), newAccount.getId());
+        } catch(DataIntegrityViolationException e) {
+            // dealing with nested exception to return correct error code
+            if(e.getCause() instanceof PropertyValueException) {
+                status = HttpStatus.BAD_REQUEST;
+            } else if(e.getCause() instanceof ConstraintViolationException) {
+                status = HttpStatus.CONFLICT;
+            } else {
+                status = HttpStatus.I_AM_A_TEAPOT; // should not get here
+            }
         } catch(Exception e) {
-            status = HttpStatus.CONFLICT;
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
         return new ResponseEntity<>(status);
     }
@@ -49,15 +60,16 @@ public class AccountController {
         HttpStatus status;
         
         // finds account by username and matches the typed password with the hashed account password
-        Account foundAccount = repo.findByUserName(account.getUserName());
-        if(foundAccount != null && passwordEncoder.matches(account.getPassword(), foundAccount.getPassword())) {
-            SessionKeeper.getInstance().addSession(session.getId(), foundAccount.getId());
-            // long tempId = SessionKeeper.getInstance().getSessionAccountId(session.getId());
-            // System.out.println(tempId);
-            
-            status = HttpStatus.OK;
-        } else {
-            status = HttpStatus.UNAUTHORIZED;
+        try {
+            Account foundAccount = repo.findByUserName(account.getUserName());
+            if(foundAccount != null && passwordEncoder.matches(account.getPassword(), foundAccount.getPassword())) {
+                SessionKeeper.getInstance().addSession(session.getId(), foundAccount.getId());
+                status = HttpStatus.OK;
+            } else {
+                status = HttpStatus.UNAUTHORIZED;
+            }
+        } catch(Exception e) {
+            status = HttpStatus.BAD_REQUEST;
         }
         return new ResponseEntity<>(status);
     }
