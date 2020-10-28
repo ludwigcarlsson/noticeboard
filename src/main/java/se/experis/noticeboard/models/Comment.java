@@ -9,6 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -37,8 +38,18 @@ public class Comment {
     @Column
     private Date editedTimestamp;
 
+    @JsonGetter("account")
+    private String account() {
+        return "/api/v1/account/"+account.getUserName();
+    }
+
     @ManyToOne
     private Account account;
+
+    @JsonGetter("notice")
+    private String notice() {
+        return "/api/v1/notices/"+notice.getId();
+    }
 
     @ManyToOne
     private Notice notice;
