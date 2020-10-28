@@ -153,6 +153,8 @@ public class NoticeController {
                 try {
                     Comment newComment = commentRepository.save(comment);
                     status = newComment != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
+                } catch (DataIntegrityViolationException e) {
+                    status = HttpStatus.BAD_REQUEST;
                 } catch (Exception e) {
                     status = HttpStatus.CONFLICT;
                 }
@@ -184,8 +186,8 @@ public class NoticeController {
                 if (comment.getAccount() == account){
                     if (changedComment.getContent() != null) {
                         comment.setContent(changedComment.getContent());
+                        comment.setEditedTimestamp(new Date());
                     }
-                    comment.setEditedTimestamp(new Date());
 
                     try {
                         Comment newComment = commentRepository.save(comment);
