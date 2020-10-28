@@ -1,15 +1,18 @@
 package se.experis.noticeboard.models;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.OnDelete;
 
 @Entity
 @JsonIdentityInfo(
@@ -36,11 +39,24 @@ public class Notice {
     @Column
     private Date editedTimestamp;
 
+    @JsonGetter("account")
+    private String account() {
+        return "/api/v1/account/"+account.getUserName();
+    }
+
     @ManyToOne
     private Account account;
 
+    @JsonGetter("comments")
+    private List<String> comments() {
+        return comments.stream()
+                .map(comment -> {
+                    return "/api/v1/notices/"+getId()+"/comments/"+comment.getId();
+                }).collect(Collectors.toList());
+    }
+
     @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Comment> comments;
+    private Set<Comment> comments = new HashSet<>();
 
     //GETTERS & SETTERS
 
@@ -52,11 +68,11 @@ public class Notice {
         this.account = account;
     }
 
-    public List<Comment> getComments() {
+    public Set<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 

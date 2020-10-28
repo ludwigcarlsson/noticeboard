@@ -1,8 +1,9 @@
 package se.experis.noticeboard.models;
 
-
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonGetter;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
@@ -36,27 +38,44 @@ public class Account {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-    private List<Comment> comments;
+    @JsonGetter("notices")
+    private List<String> notices() {
+        return notices.stream()
+                .map(notice -> {
+                    return "/api/v1/notices/"+notice.getId();
+                }).collect(Collectors.toList());
+    }
 
     @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
-    private List<Notice> notices;
+    private Set<Notice> notices = new HashSet<>();
+
+    @JsonGetter("comments")
+    private List<String> comments() {
+        return comments.stream()
+                .map(comment -> {
+                    return "/api/v1/notices/"+comment.getNotice().getId()+"/comments/"+comment.getId();
+                }).collect(Collectors.toList());
+    }
+
+    @OneToMany(mappedBy = "account", fetch = FetchType.LAZY)
+    private Set<Comment> comments = new HashSet<>();
+
 
     // GETTERS & SETTERS
 
-    public List<Comment> getComments() {
+    public Set<Comment> getComments() {
         return comments;
     }
 
-    public void setComments(List<Comment> comments) {
+    public void setComments(Set<Comment> comments) {
         this.comments = comments;
     }
 
-    public List<Notice> getNotices() {
+    public Set<Notice> getNotices() {
         return notices;
     }
 
-    public void setNotices(List<Notice> notices) {
+    public void setNotices(Set<Notice> notices) {
         this.notices = notices;
     }
 
