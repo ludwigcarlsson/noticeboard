@@ -40,7 +40,7 @@ public class Comment {
 
     @JsonGetter("account")
     private String account() {
-        return "/api/v1/account/"+account.getUserName();
+        return account.getUserName();
     }
 
     @ManyToOne
