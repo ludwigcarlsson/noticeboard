@@ -41,18 +41,15 @@ public class Notice {
 
     @JsonGetter("account")
     private String account() {
-        return "/api/v1/account/"+account.getUserName();
+        return account.getUserName();
     }
 
     @ManyToOne
     private Account account;
 
     @JsonGetter("comments")
-    private List<String> comments() {
-        return comments.stream()
-                .map(comment -> {
-                    return "/api/v1/notices/"+getId()+"/comments/"+comment.getId();
-                }).collect(Collectors.toList());
+    private int comments() {
+        return comments.size();
     }
 
     @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
