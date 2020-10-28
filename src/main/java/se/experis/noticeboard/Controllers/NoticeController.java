@@ -18,7 +18,6 @@ import javax.servlet.http.HttpSession;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = "/api/v1")
@@ -40,11 +39,10 @@ public class NoticeController {
 
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())) {
             Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-            Account account = accountRepo.get();
+            Account account = accountRepo.orElse(null);
             notice.setAccount(account);
             try {
                 Notice newNotice = noticeRepository.save(notice);
-                System.out.println(newNotice);
                 status = newNotice != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
             } catch (DataIntegrityViolationException e) {
                 status = HttpStatus.BAD_REQUEST;
@@ -77,7 +75,7 @@ public class NoticeController {
 
         if (noticeRepository.existsById(id)) {
             Optional<Notice> noticeRepo = noticeRepository.findById(id);
-            Notice notice = noticeRepo.get();
+            Notice notice = noticeRepo.orElse(null);
 
             displayNotice.setNoticeTitle(notice.getTitle());
             displayNotice.setNoticeUserName(notice.getAccount().getUserName());
@@ -103,10 +101,10 @@ public class NoticeController {
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())) {
             if (noticeRepository.existsById(id)) {
                 Optional<Notice> noticeRepo = noticeRepository.findById(id);
-                Notice notice = noticeRepo.get();
+                Notice notice = noticeRepo.orElse(null);
 
                 Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-                Account account = accountRepo.get();
+                Account account = accountRepo.orElse(null);
                 if (notice.getAccount() == account) {
                     if (changedNotice.getTitle() != null) {
                         notice.setTitle(changedNotice.getTitle());
@@ -144,11 +142,11 @@ public class NoticeController {
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())) {
             if (noticeRepository.existsById(id)) {
                 Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-                Account account = accountRepo.get();
+                Account account = accountRepo.orElse(null);
                 comment.setAccount(account); // Set author to account that is currently in the session
 
                 Optional<Notice> noticeRepo = noticeRepository.findById(id);
-                Notice notice = noticeRepo.get();
+                Notice notice = noticeRepo.orElse(null);
                 comment.setNotice(notice); // Relate comment to the chosen notice
 
                 try {
@@ -179,10 +177,10 @@ public class NoticeController {
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())) {
             if (noticeRepository.existsById(noticeId) && commentRepository.existsById(commentId)) {
                 Optional<Comment> commentRepo = commentRepository.findById(commentId);
-                Comment comment = commentRepo.get();
+                Comment comment = commentRepo.orElse(null);
 
                 Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-                Account account = accountRepo.get();
+                Account account = accountRepo.orElse(null);
 
                 if (comment.getAccount() == account){
                     if (changedComment.getContent() != null) {
@@ -220,10 +218,10 @@ public class NoticeController {
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())){
             if (noticeRepository.existsById(id)) {
                 Optional<Notice> noticeRepo = noticeRepository.findById(id);
-                Notice notice = noticeRepo.get();
+                Notice notice = noticeRepo.orElse(null);
 
                 Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-                Account account = accountRepo.get();
+                Account account = accountRepo.orElse(null);
                 if (notice.getAccount() == account) {
                     noticeRepository.deleteById(id);
                     System.out.println("Deleted notice");
@@ -252,10 +250,10 @@ public class NoticeController {
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())){
             if (noticeRepository.existsById(noticeId) && commentRepository.existsById(commentId)) {
                 Optional<Comment> commentRepo = commentRepository.findById(commentId);
-                Comment comment = commentRepo.get();
+                Comment comment = commentRepo.orElse(null);
 
                 Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-                Account account = accountRepo.get();
+                Account account = accountRepo.orElse(null);
                 if (comment.getAccount() == account) {
                     commentRepository.deleteById(commentId);
                     System.out.println("Deleted comment");
