@@ -33,16 +33,16 @@ public class AccountController {
     public ResponseEntity<Void> createAccount(@RequestBody Account account, HttpSession session) {
         HttpStatus status;
 
-        String hashedPassword = passwordEncoder.encode(account.getPassword());
-        account.setPassword(hashedPassword);
-
         try {
+            String hashedPassword = passwordEncoder.encode(account.getPassword());
+            account.setPassword(hashedPassword);
+
             Account newAccount = repo.save(account);
             status = newAccount != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
             SessionKeeper.getInstance().addSession(session.getId(), newAccount.getId());
-        } catch(DataIntegrityViolationException e) {
+        } catch(DataIntegrityViolationException | IllegalArgumentException e) {
             // dealing with nested exception to return correct error code
-            if(e.getCause() instanceof PropertyValueException) {
+            if(e.getCause() instanceof PropertyValueException || e.getCause() == null) {
                 status = HttpStatus.BAD_REQUEST;
             } else if(e.getCause() instanceof ConstraintViolationException) {
                 status = HttpStatus.CONFLICT;
