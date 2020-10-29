@@ -6,7 +6,7 @@ export async function render() {
   
   const notices = await Api.parse(await Api.getAllNotices())
   
-  let elements
+  let elements = ''
   for(const notice of notices) {
     const card = document.createElement('template')
     card.innerHTML = `

@@ -34,7 +34,6 @@ async function setPage() {
 
   header.render(isLoggedIn)
 
-
   let page = location.hash.substring(2)
   if(!isLoggedIn && requiresAuth.has(page)) {
     addMessage('you must be logged in to view this page')
@@ -47,7 +46,7 @@ async function setPage() {
 
   switch(page) {
     case routes.logout:
-      Api.logout()
+      await Api.logout()
       addMessage('you are now logged out')
       location.hash = '/'
       break;
