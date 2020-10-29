@@ -1,7 +1,6 @@
 package se.experis.noticeboard.Controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +8,6 @@ import se.experis.noticeboard.Repositories.AccountRepository;
 import se.experis.noticeboard.Repositories.CommentRepository;
 import se.experis.noticeboard.Repositories.NoticeRepository;
 import se.experis.noticeboard.Utils.SessionKeeper;
-import se.experis.noticeboard.models.Account;
 import se.experis.noticeboard.models.Comment;
 import se.experis.noticeboard.models.DisplayNoticeDTO;
 import se.experis.noticeboard.models.Notice;
@@ -38,20 +36,15 @@ public class NoticeController {
         HttpStatus status;
 
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())) {
-            Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-            Account account = accountRepo.orElse(null);
-            notice.setAccount(account);
+            notice.setAccount(accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId())).orElse(null)); // set author to the account in the current session
             try {
                 notice.setEditedTimestamp(null);
                 Notice newNotice = noticeRepository.save(notice);
                 status = newNotice != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
-            } catch (DataIntegrityViolationException e) {
+            } catch (Exception e) { // if body is in wrong format
                 status = HttpStatus.BAD_REQUEST;
-            } catch (Exception e) {
-                status = HttpStatus.CONFLICT;
             }
-        } else {
-            System.out.println("Not logged in");
+        } else { // if not logged in
             status = HttpStatus.UNAUTHORIZED;
         }
 
@@ -60,12 +53,7 @@ public class NoticeController {
 
     @GetMapping("/notices")
     public ResponseEntity<List<Notice>> getAllNotices() {
-
-        var notices = noticeRepository.findAll();
-        System.out.println("Gathered all notices");
-        HttpStatus status = HttpStatus.OK;
-
-        return new ResponseEntity<>(notices, status);
+        return new ResponseEntity<>(noticeRepository.findAll(), HttpStatus.OK);
     }
 
     @GetMapping("/notices/{id}")
@@ -84,10 +72,10 @@ public class NoticeController {
             displayNotice.setNoticeTimestamp(notice.getTimestamp());
             displayNotice.setComments(notice.getComments());
 
-            System.out.println("Gathered notice with id: "+notice.getId());
             status = HttpStatus.OK;
 
-        } else {
+        } else { // if notice does not exist
+            displayNotice = null;
             status = HttpStatus.NOT_FOUND;
         }
 
@@ -104,12 +92,13 @@ public class NoticeController {
                 Optional<Notice> noticeRepo = noticeRepository.findById(id);
                 Notice notice = noticeRepo.orElse(null);
 
-                Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-                Account account = accountRepo.orElse(null);
-                if (notice.getAccount() == account) {
+                if (notice.getAccount() ==
+                        accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId())).orElse(null)) { // checks if the account that created the notice is the same as the one in session
+
                     if (changedNotice.getTitle() != null) {
                         notice.setTitle(changedNotice.getTitle());
                     }
+
                     if (changedNotice.getContent() != null) {
                         notice.setContent(changedNotice.getContent());
                     }
@@ -118,19 +107,16 @@ public class NoticeController {
                     try {
                         Notice newNotice = noticeRepository.save(notice);
                         status = newNotice != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-                    } catch (Exception e) {
-                        status = HttpStatus.CONFLICT;
+                    } catch (Exception e) { // if body is in wrong format
+                        status = HttpStatus.BAD_REQUEST;
                     }
-                } else {
-                    System.out.println("Not your notice");
+                } else { // if notice does not belong to account in session
                     status = HttpStatus.UNAUTHORIZED;
                 }
-            } else {
-                System.out.println("Could not find notice");
+            } else { // in notice is not found
                 status = HttpStatus.NOT_FOUND;
             }
-        } else {
-            System.out.println("Not logged in");
+        } else { // if not logged in
             status = HttpStatus.UNAUTHORIZED;
         }
         return new ResponseEntity<>(status);
@@ -142,29 +128,20 @@ public class NoticeController {
 
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())) {
             if (noticeRepository.existsById(id)) {
-                Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-                Account account = accountRepo.orElse(null);
-                comment.setAccount(account); // Set author to account that is currently in the session
-
-                Optional<Notice> noticeRepo = noticeRepository.findById(id);
-                Notice notice = noticeRepo.orElse(null);
-                comment.setNotice(notice); // Relate comment to the chosen notice
+                comment.setAccount(accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId())).orElse(null)); // Set author to account that is currently in the session
+                comment.setNotice(noticeRepository.findById(id).orElse(null)); // Relate comment to the chosen notice
 
                 try {
                     comment.setEditedTimestamp(null);
                     Comment newComment = commentRepository.save(comment);
                     status = newComment != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
-                } catch (DataIntegrityViolationException e) {
+                } catch (Exception e) { // if body is in wrong format
                     status = HttpStatus.BAD_REQUEST;
-                } catch (Exception e) {
-                    status = HttpStatus.CONFLICT;
                 }
-            } else {
-                System.out.println("Could not find comment");
+            } else { // if notice is not found
                 status = HttpStatus.NOT_FOUND;
             }
-        } else {
-            System.out.println("Not logged in");
+        } else { // if not logged in
             status = HttpStatus.UNAUTHORIZED;
         }
 
@@ -181,11 +158,10 @@ public class NoticeController {
                 Optional<Comment> commentRepo = commentRepository.findById(commentId);
                 Comment comment = commentRepo.orElse(null);
 
-                Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-                Account account = accountRepo.orElse(null);
+                if (comment.getAccount() ==
+                        accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId())).orElse(null)) { // checks if the account that created the comment is the same as the one in session
 
-                if (comment.getAccount() == account){
-                    if (changedComment.getContent() != null) {
+                    if (changedComment.getContent() != null) { // if body contains content
                         comment.setContent(changedComment.getContent());
                         comment.setEditedTimestamp(new Date());
                     }
@@ -193,19 +169,16 @@ public class NoticeController {
                     try {
                         Comment newComment = commentRepository.save(comment);
                         status = newComment != null ? HttpStatus.OK : HttpStatus.BAD_REQUEST;
-                    } catch (Exception e) {
-                        status = HttpStatus.CONFLICT;
+                    } catch (Exception e) { // if body is in wrong format
+                        status = HttpStatus.BAD_REQUEST;
                     }
-                } else {
-                    System.out.println("Not your comment");
+                } else { // if comment does not belong to account in session
                     status = HttpStatus.UNAUTHORIZED;
                 }
-            } else {
-                System.out.println("Could not find comment");
+            } else { // if comment is not found
                 status = HttpStatus.NOT_FOUND;
             }
-        } else {
-            System.out.println("Not logged in");
+        } else { // if not logged in
             status = HttpStatus.UNAUTHORIZED;
         }
 
@@ -219,25 +192,18 @@ public class NoticeController {
 
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())){
             if (noticeRepository.existsById(id)) {
-                Optional<Notice> noticeRepo = noticeRepository.findById(id);
-                Notice notice = noticeRepo.orElse(null);
+                if (noticeRepository.findById(id).orElse(null).getAccount() ==
+                        accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId())).orElse(null)) { // checks if the account that created the notice is the same as the one in session
 
-                Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-                Account account = accountRepo.orElse(null);
-                if (notice.getAccount() == account) {
                     noticeRepository.deleteById(id);
-                    System.out.println("Deleted notice");
                     status = HttpStatus.OK;
-                } else {
-                    System.out.println("Not your notice");
+                } else { // if notice author is not the same as the account in session
                     status = HttpStatus.UNAUTHORIZED;
                 }
-            } else {
-                System.out.println("Could not delete notice");
+            } else { // if notice is not found
                 status = HttpStatus.NOT_FOUND;
             }
-        } else {
-            System.out.println("Not logged in");
+        } else { // if not logged in
             status = HttpStatus.UNAUTHORIZED;
         }
 
@@ -251,25 +217,18 @@ public class NoticeController {
 
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())){
             if (noticeRepository.existsById(noticeId) && commentRepository.existsById(commentId)) {
-                Optional<Comment> commentRepo = commentRepository.findById(commentId);
-                Comment comment = commentRepo.orElse(null);
+                if (commentRepository.findById(commentId).orElse(null).getAccount() ==
+                        accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId())).orElse(null)) { // checks if the account that created the comment is the same as the one in session
 
-                Optional<Account> accountRepo = accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId()));
-                Account account = accountRepo.orElse(null);
-                if (comment.getAccount() == account) {
                     commentRepository.deleteById(commentId);
-                    System.out.println("Deleted comment");
                     status = HttpStatus.OK;
-                } else {
-                    System.out.println("Not your comment");
+                } else { // if comment author is not the same as the account in session
                     status = HttpStatus.UNAUTHORIZED;
                 }
-            } else {
-                System.out.println("Could not delete comment");
+            } else { // if comment is not found
                 status = HttpStatus.NOT_FOUND;
             }
-        } else {
-            System.out.println("Not logged in");
+        } else { // if not logged in
             status = HttpStatus.UNAUTHORIZED;
         }
 
