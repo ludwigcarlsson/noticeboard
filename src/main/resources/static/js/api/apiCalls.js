@@ -34,8 +34,9 @@ export default class Api {
     httpRequest.get('/account/logout')
   }
 
-  static getLoginStatus() {
-    return httpRequest.get('/account/loginStatus')
+  static async getLoginStatus() {
+    const response = await httpRequest.get('/account/loginStatus')
+    return Api.parse(response)
   }
 
 
