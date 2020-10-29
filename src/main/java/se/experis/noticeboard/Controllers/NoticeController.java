@@ -42,6 +42,7 @@ public class NoticeController {
             Account account = accountRepo.orElse(null);
             notice.setAccount(account);
             try {
+                notice.setEditedTimestamp(null);
                 Notice newNotice = noticeRepository.save(notice);
                 status = newNotice != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
             } catch (DataIntegrityViolationException e) {
@@ -150,6 +151,7 @@ public class NoticeController {
                 comment.setNotice(notice); // Relate comment to the chosen notice
 
                 try {
+                    comment.setEditedTimestamp(null);
                     Comment newComment = commentRepository.save(comment);
                     status = newComment != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
                 } catch (DataIntegrityViolationException e) {
