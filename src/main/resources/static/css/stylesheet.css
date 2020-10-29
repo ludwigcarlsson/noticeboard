@@ -37,6 +37,7 @@ body {
     margin-top: 2%;
     flex-direction: column;
     border-radius: 8px;
+    margin-bottom: 3%;
 }
 
 .notice-item {
