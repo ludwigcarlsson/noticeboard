@@ -9,8 +9,8 @@ body {
 }
 
 .margin-nav {
-    margin-left: 67rem;
-    margin-right: 54rem;
+    margin-left: 53rem;
+    margin-right: 37rem;
 }
 
 .nav-title-size {
@@ -37,6 +37,7 @@ body {
     margin-top: 2%;
     flex-direction: column;
     border-radius: 8px;
+    margin-bottom: 3%;
 }
 
 .notice-item {
