@@ -36,10 +36,10 @@ export function render() {
   `
 
   contentContainer.querySelector('#userName').focus()
+  const form = contentContainer.querySelector('#createAccountForm')
 
-  contentContainer.addEventListener('submit', async e => {
+  form.addEventListener('submit', async e => {
     e.preventDefault()
-    const form = contentContainer.querySelector('#createAccountForm')
     
     const userName = form.querySelector('#userName').value
     const password = form.querySelector('#password').value
@@ -47,11 +47,10 @@ export function render() {
 
     const result = await Api.createAccount(userName, password, email)
     if(result.ok) {
-      Api.login(userName, password)
-      form.reset()
+      await Api.login(userName, password)
+      location.hash = '/'
     }
 
     addMessage(result.ok ? 'account created' : (result.status === 409 ? 'username and/or email is taken' : 'error: ' + result.status))
-
   })
 }
