@@ -60,6 +60,6 @@ async function setPage() {
       createNoticePage.render()
       break;
     default:
-      viewAllNotices.render()
+      viewAllNotices.render(1)
   }
 }
