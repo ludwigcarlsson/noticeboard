@@ -16,3 +16,12 @@ textarea {
 table td:first-child {
   width: 100px;
 }
+
+#messages {
+  text-align: center;
+  margin-top: 3%;
+}
+
+#contentContainer {
+  margin: 20px;
+}
