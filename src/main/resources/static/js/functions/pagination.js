@@ -33,9 +33,11 @@ export function setup_pagination (items, wrapper, rows_per_page, page) { // ente
 
 function pagination_button(page, current_page) { // enter page and the currently active page
     let button = document.createElement('button')
+    button.classList.add('btn-dark')
     button.innerText = page
 
-    if (current_page == page) { button.classList.add('active') }
+    if (current_page == page) { button.classList.add('active')
+        button.classList.add('btn-dark') }
 
     button.addEventListener('click', function () {
         current_page = page
