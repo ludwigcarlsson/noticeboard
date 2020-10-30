@@ -10,9 +10,9 @@ body {
     padding: 1.5rem;
 }
 
-.navbar-nav  {
+.navbar-nav {
     position: relative;
-    margin-left:88%;
+    margin-left: 88%;
 }
 
 .nav-title-size {
@@ -83,10 +83,10 @@ body {
 /*LOGIN-PAGE*/
 
 .login-container {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 12%;
-    width: 20%;
+    margin:auto;
+
+    max-width: 400px;
+    height: auto;
     padding: 3%;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
     border-style: solid;
@@ -96,8 +96,7 @@ body {
 }
 
 .btn-placement {
-    margin-left:300%;
-    margin-top: 12%;
+
 }
 
 .input-margin {
@@ -105,27 +104,21 @@ body {
 }
 
 
-            /* MEDIA QUERIES */
+/* MEDIA QUERIES */
 
-@media screen and (min-width:768px)
+@media screen and (min-width: 768px) {
 
-{
-
-    .navbar-nav{
-        margin-left:68%;
+    .navbar-nav {
+        margin-left: 68%;
     }
 
-    .navbar-brand{
-        margin-left:200%;
+    .navbar-brand {
+        margin-left: 200%;
     }
-    }
+}
 
 
-
-
-
-
-@media screen and (min-width:1024px) {
+@media screen and (min-width: 1024px) {
     .navbar-nav {
         margin-left: 74%;
     }
@@ -135,33 +128,33 @@ body {
     }
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1200px) {
 
-    .navbar-brand{
-        margin-left:250%;
+    .navbar-brand {
+        margin-left: 250%;
     }
 }
 
-    @media screen and (min-width: 1366px) {
-        .navbar-nav {
-            margin-left: 82%;
-        }
-
-        .navbar-brand {
-            margin-left: 350%;
-
-        }
+@media screen and (min-width: 1366px) {
+    .navbar-nav {
+        margin-left: 82%;
     }
 
-@media screen and (min-width:1800px){
-    .navbar-brand{
-        margin-left:400%;
+    .navbar-brand {
+        margin-left: 350%;
+
     }
 }
 
-@media screen and (min-width:2100px){
-    .navbar-brand{
-        margin-left:500%;
+@media screen and (min-width: 1800px) {
+    .navbar-brand {
+        margin-left: 400%;
+    }
+}
+
+@media screen and (min-width: 2100px) {
+    .navbar-brand {
+        margin-left: 500%;
     }
 }
 

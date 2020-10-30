@@ -17,7 +17,7 @@ export async function render() {
         <tr>
             <td>Password:</td>
             <td>
-                <input id="password" class="form-control input-margin" type="password"
+                <input id="password" class="form-control input-margin btn-block" type="password"
                         placeholder="Enter password" required>
             </td>
         </tr>
