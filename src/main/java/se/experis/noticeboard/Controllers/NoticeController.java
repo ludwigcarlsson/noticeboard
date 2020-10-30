@@ -53,7 +53,7 @@ public class NoticeController {
 
     @GetMapping("/notices")
     public ResponseEntity<List<Notice>> getAllNotices() {
-        return new ResponseEntity<>(noticeRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(noticeRepository.findAllByOrderByTimestampDesc(), HttpStatus.OK);
     }
 
     @GetMapping("/notices/{id}")
