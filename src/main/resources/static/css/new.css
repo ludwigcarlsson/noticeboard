@@ -1,5 +1,7 @@
+/* Form */
 input {
   width: 100%;
+  margin-bottom: 10px;
 }
 
 div {
@@ -17,6 +19,7 @@ table td:first-child {
   width: 100px;
 }
 
+/* Containers */
 #messages {
   text-align: center;
   margin-top: 3%;
@@ -24,4 +27,56 @@ table td:first-child {
 
 #contentContainer {
   margin: 20px;
+}
+
+
+/* View notice */
+hr {
+  background-color: #aaa;
+}
+
+.post {
+  padding: 20px;
+  padding-bottom: 0;
+}
+
+.post #title {
+  font-size: 32px;
+  white-space: nowrap;
+  margin-bottom: 30px;
+}
+
+#bottombar {
+  display: flex;
+  white-space: nowrap;
+}
+
+#bottombar #author {
+  font-size: 13px;
+  text-align: right;
+  padding: 5px 10px;
+  background-color: #ddd;
+  margin-left: auto;
+}
+
+#bottombar #buttons {
+  margin-top: 20px;
+}
+
+#bottombar #buttons a {
+  color: grey;
+  text-decoration: none;
+  margin-right: 10px;
+}
+
+#bottombar #buttons a:hover {
+  color: black;
+}
+
+a {
+  cursor: pointer;
+}
+
+.gone {
+  display: none;
 }
