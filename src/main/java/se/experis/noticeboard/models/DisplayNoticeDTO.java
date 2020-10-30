@@ -1,7 +1,6 @@
 package se.experis.noticeboard.models;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 
@@ -10,7 +9,9 @@ public class DisplayNoticeDTO {
     private String noticeTitle;
     private String noticeContent;
     private String noticeUserName;
+    private long accountId;
     private Date noticeTimestamp;
+    private Date editedNoticeTimestamp;
 
     private Set<Comment> comments;
 
@@ -40,12 +41,28 @@ public class DisplayNoticeDTO {
         this.noticeUserName = noticeUserName;
     }
 
+    public long getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(long accountId) {
+        this.accountId = accountId;
+    }
+
     public Date getNoticeTimestamp() {
         return noticeTimestamp;
     }
 
     public void setNoticeTimestamp(Date noticeTimestamp) {
         this.noticeTimestamp = noticeTimestamp;
+    }
+
+    public Date getEditedNoticeTimestamp() {
+        return editedNoticeTimestamp;
+    }
+
+    public void setEditedNoticeTimestamp(Date editedNoticeTimestamp) {
+        this.editedNoticeTimestamp = editedNoticeTimestamp;
     }
 
     public Set<Comment> getComments() {

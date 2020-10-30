@@ -68,8 +68,10 @@ public class NoticeController {
 
             displayNotice.setNoticeTitle(notice.getTitle());
             displayNotice.setNoticeUserName(notice.getAccount().getUserName());
+            displayNotice.setAccountId(notice.getAccount().getId());
             displayNotice.setNoticeContent(notice.getContent());
             displayNotice.setNoticeTimestamp(notice.getTimestamp());
+            displayNotice.setEditedNoticeTimestamp(notice.getEditedTimestamp());
             displayNotice.setComments(notice.getComments());
 
             status = HttpStatus.OK;
