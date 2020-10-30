@@ -131,9 +131,17 @@ body {
     }
 
     .navbar-brand {
-        margin-left: 300%;
+        margin-left: 200%;
     }
 }
+
+@media screen and (min-width: 1200px){
+
+    .navbar-brand{
+        margin-left:250%;
+    }
+}
+
     @media screen and (min-width: 1366px) {
         .navbar-nav {
             margin-left: 82%;
@@ -148,6 +156,12 @@ body {
 @media screen and (min-width:1800px){
     .navbar-brand{
         margin-left:400%;
+    }
+}
+
+@media screen and (min-width:2100px){
+    .navbar-brand{
+        margin-left:500%;
     }
 }
 
