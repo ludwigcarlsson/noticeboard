@@ -31,15 +31,16 @@ public class NoticeController {
     private AccountRepository accountRepository;
 
     @PostMapping("/notices")
-    public ResponseEntity<Void> createNotice(@RequestBody Notice notice, HttpSession session) {
+    public ResponseEntity<Notice> createNotice(@RequestBody Notice notice, HttpSession session) {
 
         HttpStatus status;
+        Notice newNotice = null;
 
         if (SessionKeeper.getInstance().isLoggedIn(session.getId())) {
             notice.setAccount(accountRepository.findById(SessionKeeper.getInstance().getSessionAccountId(session.getId())).orElse(null)); // set author to the account in the current session
             try {
                 notice.setEditedTimestamp(null);
-                Notice newNotice = noticeRepository.save(notice);
+                newNotice = noticeRepository.save(notice);
                 status = newNotice != null ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
             } catch (Exception e) { // if body is in wrong format
                 status = HttpStatus.BAD_REQUEST;
@@ -48,7 +49,7 @@ public class NoticeController {
             status = HttpStatus.UNAUTHORIZED;
         }
 
-        return new ResponseEntity<>(status);
+        return new ResponseEntity<>(newNotice, status);
     }
 
     @GetMapping("/notices")

@@ -16,7 +16,6 @@ export async function render(page) {
           <div id="notices" class="notice-container">
             <div class="notice-item">
              <div><h3 class="notice-title"><a href="/#/notice/${paginatedNotices[i].id}">${paginatedNotices[i].title}</a></h3>
-                <button class="btn-sm btn-outline-dark float-right">Edit</button>
              </div>
              <div class="lead notice-description">${paginatedNotices[i].content}</div>
              <div class="float-right blockquote-footer notice-signature">${paginatedNotices[i].account} ${paginatedNotices[i].timestamp}</div>
@@ -29,7 +28,16 @@ export async function render(page) {
     contentContainer.innerHTML = `
     <h1 class="text-center">Home</h1>
     ${elements}
-  `
+    `
+
+    const isLoggedIn = await Api.getLoginStatus()
+    if(isLoggedIn) {
+      const link = document.createElement('a')
+      link.href = "/#/notice/create"
+      link.innerText = 'create new notice'
+      contentContainer.appendChild(link)
+    }
+
     contentContainer.appendChild(paginationControls)
 }
 

@@ -1,4 +1,4 @@
-import {render} from "/js/pages/temphome.js";
+import {render} from "/js/pages/home.js";
 
 export function controls() { // append this to parent
     const paginationControls = document.createElement('div')

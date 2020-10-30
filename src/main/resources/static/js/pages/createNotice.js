@@ -1,5 +1,6 @@
 import Api from '../functions/apiCalls.js'
 import addMessage from '../functions/messages.js'
+import * as router from '/js/router.js'
 
 export function render() {
   document.querySelector('#contentContainer').innerHTML = `
@@ -31,8 +32,10 @@ export function render() {
     const response = await Api.newNotice(title, content)
 
     if(response.ok) {
-      form.reset()
+      const newNotice = await Api.parse(response)
       addMessage('notice created')
+      location.hash = '/notice/' + newNotice.id
+      // router.navigate('notice/' + notice.id)
     } else if(response.status === 400) {
       addMessage('could not create notice. required fields are missing')
     } else if(response.status === 401) {
