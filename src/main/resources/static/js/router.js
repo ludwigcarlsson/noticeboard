@@ -1,7 +1,7 @@
 import * as createAccountPage from '/js/pages/createAccount.js'
 import * as createNoticePage from '/js/pages/createNotice.js'
 import * as loginPage from '/js/pages/login.js'
-import * as viewAllNotices from '/js/pages/temphome.js'
+import * as viewAllNotices from '/js/pages/home.js'
 import * as viewNotices from '/js/pages/viewNotice.js'
 import * as header from '/js/header.js'
 import Api from '/js/functions/apiCalls.js'
@@ -63,7 +63,7 @@ async function setPage() {
     case routes.logout:
       await Api.logout()
       addMessage('you are now logged out')
-      header.render(false)
+      location.hash = ''
       break;
     case routes.createAccount:
       createAccountPage.render()
