@@ -14,16 +14,21 @@ export async function render(page) {
   for(let i = 0; i < paginatedNotices.length; i++) {
     const card = document.createElement('template')
     card.innerHTML = `
-    <div style="padding: 10px; border: 1px solid black; font-size: 16px" id="notices">
-      <div style="font-size: 20px">${paginatedNotices[i].title}</div>
-      <div>${paginatedNotices[i].content}</div>
+    <div id="notices" class="notice-container">
+       <div class="notice-item">
+      <div><h3 class="notice-title">${paginatedNotices[i].title}</h3>
+      <button class="btn-sm btn-outline-dark float-right">Edit</button>
+      </div>
+      <div class="lead notice-description">${paginatedNotices[i].content}</div>
+      <div class="float-right blockquote-footer notice-signature">${paginatedNotices[i].account} ${paginatedNotices[i].timestamp}</div>
+      </div>
     </div>
     `
     elements += card.innerHTML
   }
 
   contentContainer.innerHTML = `
-    <h1>Home</h1>
+    <h1 class="text-center">Home</h1>
     ${elements}
   `
   contentContainer.appendChild(paginationControls)
