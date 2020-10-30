@@ -43,27 +43,28 @@ body {
 .notice-container {
     color: black;
     display: flex;
-    margin-left: 18%;
-    margin-right: 18%;
+    margin-left: auto;
+    margin-right:auto;
+    max-width:800px;
     padding: 2%;
-    margin-top: 2%;
+    margin-top: 1%;
     flex-direction: column;
     border-radius: 8px;
-    margin-bottom: 3%;
+
 }
 
 .notice-item {
     background-color: #fff;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3);
     border-radius: 8px;
-    margin-bottom: 2%;
+
     border-style: solid;
     border-width: 1px;
 }
 
 .notice-item:hover {
 
-    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.6);
 
 }
 
@@ -71,24 +72,26 @@ body {
     text-align: center;
 }
 
-.notice-title h1 {
-    font-size: 3.5rem;
-    font-weight: bolder;
-}
-
 .notice-description {
     text-align: center;
     margin-left: 1%;
     margin-right: 1%;
-    font-weight: normal;
 
 }
 
 .notice-signature {
-    text-align: right;
-    font-weight: lighter;
     margin-right: 1%;
 }
+
+ /*NOTICE PAGINATION */
+
+.pagination-controls{
+    margin-bottom: 10%;
+    margin-left: auto;
+    margin-right:auto;
+    width:50px;
+}
+
 
 /*LOGIN-PAGE*/
 
