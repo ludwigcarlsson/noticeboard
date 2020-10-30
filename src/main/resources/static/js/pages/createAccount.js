@@ -4,34 +4,38 @@ import addMessage from '../functions/messages.js'
 export function render() {
   const contentContainer = document.querySelector('#contentContainer')
   contentContainer.innerHTML = `
-  <h2>Create new account</h2>
+  <h2 class="text-center">Create new account</h2>
 
-  <form id="createAccountForm">
+  <form id="createAccountForm" class="fl">
     <table>
+    <div class="form-group">
       <tr>
         <td>User name</td>
         <td>
-          <input type="text" id="userName" autocomplete="off">
+          <input type="text" id="userName" autocomplete="off" required>
         </td>
       </tr>
+      </div>
+      <div class="form-group">
       <tr>
         <td>Password</td>
         <td>
-          <input type="password" id="password">
+          <input type="password" id="password" required>
         </td>
       </tr>
+      </div>
+      <div class="form-group">
       <tr>
         <td>Email</td>
         <td>
-          <input type="text" id="email" autocomplete="off">
+          <input type="email" id="email" autocomplete="off" required>
         </td>
       </tr>
-      <tr>
-        <td></td>
-        <td>
-          <button type="submit">Submit</button>
-      </tr>
+     </div>
     </table>
+    <div class="form-group">
+    <button class="btn btn-primary btn-lg float-right" type="submit">Submit</button>
+    </div>
   </form>
   `
 
