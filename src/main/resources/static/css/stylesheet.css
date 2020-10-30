@@ -4,13 +4,15 @@ body {
 
 
 /* NAVBAR/HEADER */
+
+
 .padding-nav {
     padding: 1.5rem;
 }
 
-.margin-nav {
-    margin-left: 53rem;
-    margin-right: 37rem;
+.navbar-nav  {
+    position: relative;
+    margin-left:88%;
 }
 
 .nav-title-size {
@@ -101,3 +103,53 @@ body {
 .input-margin {
     margin-bottom: 4%;
 }
+
+
+            /* MEDIA QUERIES */
+
+@media screen and (min-width:768px)
+
+{
+
+    .navbar-nav{
+        margin-left:68%;
+    }
+
+    .navbar-brand{
+        margin-left:200%;
+    }
+    }
+
+
+
+
+
+
+@media screen and (min-width:1024px) {
+    .navbar-nav {
+        margin-left: 74%;
+    }
+
+    .navbar-brand {
+        margin-left: 300%;
+    }
+}
+    @media screen and (min-width: 1366px) {
+        .navbar-nav {
+            margin-left: 82%;
+        }
+
+        .navbar-brand {
+            margin-left: 350%;
+
+        }
+    }
+
+@media screen and (min-width:1800px){
+    .navbar-brand{
+        margin-left:400%;
+    }
+}
+
+
+
