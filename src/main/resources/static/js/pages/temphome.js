@@ -15,7 +15,7 @@ export async function render(page) {
     const card = document.createElement('template')
     card.innerHTML = `
     <div style="padding: 10px; border: 1px solid black; font-size: 16px" id="notices">
-      <div style="font-size: 20px">${paginatedNotices[i].title}</div>
+      <div style="font-size: 20px"><a href="/#/notice/${paginatedNotices[i].id}">${paginatedNotices[i].title}</a></div>
       <div>${paginatedNotices[i].content}</div>
     </div>
     `
