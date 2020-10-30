@@ -1,13 +1,13 @@
 import {render} from "/js/pages/temphome.js";
 
-export function controls() {
+export function controls() { // append this to parent
     const paginationControls = document.createElement('div')
     paginationControls.setAttribute("id", "pagination-controls")
     paginationControls.classList.add("pagination-controls")
     return paginationControls
 }
 
-export function paginateItems(notices, controls, rows_per_page, page) {
+export function paginateItems(items, controls, rows_per_page, page) { // when calling, enter object, controls, how many rows to show and current page
 
     let current_page = page - 1
     let rows = 5
@@ -15,12 +15,12 @@ export function paginateItems(notices, controls, rows_per_page, page) {
     let start = rows * current_page
     let end = start + rows
 
-    setup_pagination(notices.length, controls, rows, page)
+    setup_pagination(items.length, controls, rows, page)
 
-    return notices.slice(start, end)
+    return items.slice(start, end)
 }
 
-export function setup_pagination (items, wrapper, rows_per_page, page) {
+export function setup_pagination (items, wrapper, rows_per_page, page) { // enter objects length, the wrapper for buttons and current page
 
     wrapper.innerHTML = ""
     let page_count = Math.ceil(items / rows_per_page)
@@ -31,7 +31,7 @@ export function setup_pagination (items, wrapper, rows_per_page, page) {
     }
 }
 
-function pagination_button(page, current_page) {
+function pagination_button(page, current_page) { // enter page and the currently active page
     let button = document.createElement('button')
     button.innerText = page
 
