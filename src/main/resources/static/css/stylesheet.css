@@ -1,7 +1,17 @@
+
+/*Create new account form */
+
+#createAccountForm{
+
+margin:auto;
+    max-width:400px;
+    height:auto;
+    text-align: center;
+}
+
 body {
     background-color: #0d5ef100;
 }
-
 
 /* NAVBAR/HEADER */
 
@@ -83,7 +93,7 @@ body {
 /*LOGIN-PAGE*/
 
 .login-container {
-    margin:auto;
+    margin: auto;
     min-height: 232px;
     max-width: 450px;
     height: auto;
@@ -96,21 +106,23 @@ body {
 }
 
 .btn-placement {
-float:right;
+    float: right;
 }
 
 .input-margin {
     margin-bottom: 4%;
 }
 
-.test{
-    max-width:300px;
+.test {
+    max-width: 300px;
 }
 
 /* MEDIA QUERIES */
 
 @media screen and (min-width: 768px) {
 
+
+    /*NAVBAR */
     .navbar-nav {
         margin-left: 68%;
     }
@@ -122,6 +134,8 @@ float:right;
 
 
 @media screen and (min-width: 1024px) {
+
+    /*NAVBAR */
     .navbar-nav {
         margin-left: 74%;
     }
@@ -133,12 +147,15 @@ float:right;
 
 @media screen and (min-width: 1200px) {
 
+    /*NAVBAR */
     .navbar-brand {
         margin-left: 250%;
     }
 }
 
 @media screen and (min-width: 1366px) {
+
+    /*NAVBAR */
     .navbar-nav {
         margin-left: 82%;
     }
@@ -150,12 +167,16 @@ float:right;
 }
 
 @media screen and (min-width: 1800px) {
+
+    /*NAVBAR */
     .navbar-brand {
         margin-left: 400%;
     }
 }
 
 @media screen and (min-width: 2100px) {
+
+    /*NAVBAR */
     .navbar-brand {
         margin-left: 500%;
     }

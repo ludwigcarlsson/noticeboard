@@ -39,24 +39,24 @@ export async function render() {
     // const isLoggedIn = await Api.getLoginStatus()
 
     // if (true || !isLoggedIn) {
-        const form = document.querySelector('#loginForm')
+    const form = document.querySelector('#loginForm')
 
-        form.addEventListener('submit', async e => {
-            e.preventDefault();
-            
-            const userName = form.querySelector('#userName').value
-            const password = form.querySelector('#password').value
+    form.addEventListener('submit', async e => {
+        e.preventDefault();
 
-            const response = await Api.login(userName, password)
-            if (response.ok) {
-                // TODO navigate
-                addMessage('log in successful')
-                location.hash = '/'
-            } else {
-                addMessage('wrong account credentials')
-            }
-        })
+        const userName = form.querySelector('#userName').value
+        const password = form.querySelector('#password').value
+
+        const response = await Api.login(userName, password)
+        if (response.ok) {
+            // TODO navigate
+            addMessage('log in successful')
+            location.hash = '/'
+        } else {
+            addMessage('wrong account credentials')
+        }
+    })
     // } else {
-        // TODO navigate to home?
+    // TODO navigate to home?
     // }
 }
