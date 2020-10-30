@@ -38,6 +38,10 @@ export default class Api {
     const response = await httpRequest.get('/account/loginStatus')
     return Api.parse(response)
   }
+  
+  static async getAccountId() {
+    return await httpRequest.get('/account/id')
+  }
 
 
   //---------------//

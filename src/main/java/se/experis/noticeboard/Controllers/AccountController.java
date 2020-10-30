@@ -82,7 +82,13 @@ public class AccountController {
     
     @GetMapping("/loginStatus")
     public ResponseEntity<Boolean> loginStatus(HttpSession session) {
-        return new ResponseEntity<>(SessionKeeper.getInstance().isLoggedIn(session.getId()), HttpStatus.OK);
+        return new ResponseEntity<>( SessionKeeper.getInstance().isLoggedIn(session.getId()), HttpStatus.OK);
     }
-
+    
+    
+    @GetMapping("/id")
+    public ResponseEntity<Long> accountId(HttpSession session) {
+        Long accountId = SessionKeeper.getInstance().getSessionAccountId(session.getId());
+        return new ResponseEntity<>(accountId, accountId != null ? HttpStatus.OK : HttpStatus.NO_CONTENT);
+    }
 }

@@ -49,9 +49,6 @@ async function setPage() {
     page = path[0]
     id = path[path.length - 1]
   }
-  console.log(page, id)
-  
-
 
   if(!isLoggedIn && requiresAuth.has(page)) {
     addMessage('you must be logged in to view this page')

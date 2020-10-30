@@ -5,7 +5,6 @@ const contentContainer = document.querySelector('#contentContainer')
 const paginationControls = paginate.controls();
 
 export async function render(page) {
-
     const notices = await Api.parse(await Api.getAllNotices())
 
     let paginatedNotices = paginate.paginateItems(notices, paginationControls, 5, page)
