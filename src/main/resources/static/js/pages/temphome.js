@@ -5,15 +5,15 @@ const contentContainer = document.querySelector('#contentContainer')
 const paginationControls = paginate.controls();
 
 export async function render(page) {
-  
-  const notices = await Api.parse(await Api.getAllNotices())
 
-  let paginatedNotices = paginate.paginateItems(notices, paginationControls, 5, page)
-  
-  let elements = ''
-  for(let i = 0; i < paginatedNotices.length; i++) {
-    const card = document.createElement('template')
-    card.innerHTML = `
+    const notices = await Api.parse(await Api.getAllNotices())
+
+    let paginatedNotices = paginate.paginateItems(notices, paginationControls, 5, page)
+
+    let elements = ''
+    for (let i = 0; i < paginatedNotices.length; i++) {
+        const card = document.createElement('template')
+        card.innerHTML = `
     <div id="notices" class="notice-container">
        <div class="notice-item">
       <div><h3 class="notice-title">${paginatedNotices[i].title}</h3>
@@ -24,14 +24,14 @@ export async function render(page) {
       </div>
     </div>
     `
-    elements += card.innerHTML
-  }
+        elements += card.innerHTML
+    }
 
-  contentContainer.innerHTML = `
+    contentContainer.innerHTML = `
     <h1 class="text-center">Home</h1>
     ${elements}
   `
-  contentContainer.appendChild(paginationControls)
+    contentContainer.appendChild(paginationControls)
 }
 
 

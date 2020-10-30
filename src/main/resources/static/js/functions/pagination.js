@@ -20,7 +20,7 @@ export function paginateItems(items, controls, rows_per_page, page) { // when ca
     return items.slice(start, end)
 }
 
-export function setup_pagination (items, wrapper, rows_per_page, page) { // enter objects length, the wrapper for buttons and current page
+export function setup_pagination(items, wrapper, rows_per_page, page) { // enter objects length, the wrapper for buttons and current page
 
     wrapper.innerHTML = ""
     let page_count = Math.ceil(items / rows_per_page)
@@ -36,8 +36,10 @@ function pagination_button(page, current_page) { // enter page and the currently
     button.classList.add('btn-dark')
     button.innerText = page
 
-    if (current_page == page) { button.classList.add('active')
-        button.classList.add('btn-dark') }
+    if (current_page == page) {
+        button.classList.add('active')
+        button.classList.add('btn-dark')
+    }
 
     button.addEventListener('click', function () {
         current_page = page
