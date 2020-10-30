@@ -43,6 +43,9 @@ public class Comment {
         return account.getUserName();
     }
 
+    @JsonGetter("accountId")
+    private long accountId() { return account.getId(); }
+
     @ManyToOne
     private Account account;
 
