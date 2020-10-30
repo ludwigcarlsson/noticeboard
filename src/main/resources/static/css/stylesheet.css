@@ -84,8 +84,8 @@ body {
 
 .login-container {
     margin:auto;
-
-    max-width: 400px;
+    min-height: 232px;
+    max-width: 450px;
     height: auto;
     padding: 3%;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
@@ -96,13 +96,16 @@ body {
 }
 
 .btn-placement {
-
+float:right;
 }
 
 .input-margin {
     margin-bottom: 4%;
 }
 
+.test{
+    max-width:300px;
+}
 
 /* MEDIA QUERIES */
 
