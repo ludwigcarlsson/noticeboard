@@ -63,9 +63,9 @@ export async function render(noticeId) {
       </div>
       <hr>
       `
-      // if (accountId !== comment.accountId) {
-      //   card.querySelector('#buttons').remove()
-      // }
+      if (accountId !== comment.accountId) {
+        card.querySelector('#buttons').remove()
+      }
       elements.appendChild(card)
     }
 
