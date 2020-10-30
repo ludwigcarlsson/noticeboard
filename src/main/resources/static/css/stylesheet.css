@@ -1,16 +1,28 @@
+
+/*Create new account form */
+
+#createAccountForm{
+
+margin:auto;
+    max-width:400px;
+    height:auto;
+    text-align: center;
+}
+
 body {
     background-color: #0d5ef100;
 }
 
-
 /* NAVBAR/HEADER */
+
+
 .padding-nav {
     padding: 1.5rem;
 }
 
-.margin-nav {
-    margin-left: 53rem;
-    margin-right: 37rem;
+.navbar-nav {
+    position: relative;
+    margin-left: 88%;
 }
 
 .nav-title-size {
@@ -81,10 +93,10 @@ body {
 /*LOGIN-PAGE*/
 
 .login-container {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 12%;
-    width: 20%;
+    margin: auto;
+    min-height: 232px;
+    max-width: 450px;
+    height: auto;
     padding: 3%;
     box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.5);
     border-style: solid;
@@ -94,10 +106,81 @@ body {
 }
 
 .btn-placement {
-    margin-left:300%;
-    margin-top: 12%;
+    float: right;
 }
 
 .input-margin {
     margin-bottom: 4%;
 }
+
+.test {
+    max-width: 300px;
+}
+
+/* MEDIA QUERIES */
+
+@media screen and (min-width: 768px) {
+
+
+    /*NAVBAR */
+    .navbar-nav {
+        margin-left: 68%;
+    }
+
+    .navbar-brand {
+        margin-left: 200%;
+    }
+}
+
+
+@media screen and (min-width: 1024px) {
+
+    /*NAVBAR */
+    .navbar-nav {
+        margin-left: 74%;
+    }
+
+    .navbar-brand {
+        margin-left: 200%;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+
+    /*NAVBAR */
+    .navbar-brand {
+        margin-left: 250%;
+    }
+}
+
+@media screen and (min-width: 1366px) {
+
+    /*NAVBAR */
+    .navbar-nav {
+        margin-left: 82%;
+    }
+
+    .navbar-brand {
+        margin-left: 350%;
+
+    }
+}
+
+@media screen and (min-width: 1800px) {
+
+    /*NAVBAR */
+    .navbar-brand {
+        margin-left: 400%;
+    }
+}
+
+@media screen and (min-width: 2100px) {
+
+    /*NAVBAR */
+    .navbar-brand {
+        margin-left: 500%;
+    }
+}
+
+
+

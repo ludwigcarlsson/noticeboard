@@ -73,11 +73,12 @@ async function setPage() {
       viewNotices.render(pagePath[1])
       break;
     case routes.home:
-      viewAllNotices.render()
+      viewAllNotices.render(1)
       break;
     case routes.error:
     default:
       addMessage('404 site not found')
       // TODO 404 page
+
   }
 }
