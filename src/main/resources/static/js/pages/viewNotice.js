@@ -9,11 +9,13 @@ export async function render(noticeId) {
   const getNoticeResponse = await Api.getNotice(noticeId)
   if (getNoticeResponse.ok) {
     const notice = await Api.parse(getNoticeResponse)
+    
     const accountResponse = await Api.getAccountId()
     let accountId
-    if(accountResponse.status === 200) {
+    if (accountResponse.status === 200) {
       accountId = await Api.parse(accountResponse)
     }
+    const isLoggedIn = accountId != null
 
     const elements = document.createElement('div')
 
@@ -34,10 +36,10 @@ export async function render(noticeId) {
         </div>
       </div>
     </div>
+    <hr>
     `
-    console.log('id', accountId)
-    
-    if(accountId !== notice.accountId) {
+
+    if (accountId !== notice.accountId) {
       noticeCard.querySelector('#buttons').remove()
     }
     elements.appendChild(noticeCard)
@@ -45,7 +47,6 @@ export async function render(noticeId) {
     for (const comment of notice.comments) {
       const card = document.createElement('div')
       card.innerHTML = `
-      <hr>
       <div class="post" id="${comment.id}">
         <div id="content">${comment.content}</div>
         <div id="bottombar">
@@ -60,16 +61,53 @@ export async function render(noticeId) {
           </div>
         </div>
       </div>
+      <hr>
       `
-      if(accountId !== notice.accountId) {
-        card.querySelector('#buttons').remove()
-      }
+      // if (accountId !== comment.accountId) {
+      //   card.querySelector('#buttons').remove()
+      // }
       elements.appendChild(card)
     }
 
     const contentContainer = document.querySelector('#contentContainer')
     contentContainer.innerHTML = ''
     contentContainer.appendChild(elements)
+
+    if (isLoggedIn) {
+      const addCommentForm = document.createElement('form')
+      addCommentForm.innerHTML = `      
+      <textarea placeholder="Write something..."></textarea>
+      <button id="addBtn" type="submit">Add comment</button>
+      `
+      contentContainer.appendChild(addCommentForm)
+
+      addCommentForm.addEventListener('submit', async e => {
+        e.preventDefault()
+        const content = addCommentForm.querySelector('textarea').value
+        const response = await Api.newComment(noticeId, content)
+
+        if (response.ok) {
+          addMessage('comment posted')
+        } else {
+          let msg
+          switch (response.status) {
+            case 400:
+              msg = 'enter content'
+              break;
+            case 401:
+              msg = 'you are not logged in'
+              break;
+            case 404:
+              msg = 'notice not found'
+              break;
+            default:
+              msg = reponse.status
+          }
+          addMessage('error ' + msg)
+        }
+        render(noticeId)
+      })
+    }
 
     let response, isNoticeAction
     elements.addEventListener('click', async e => {
@@ -100,7 +138,7 @@ export async function render(noticeId) {
         contentDiv.replaceWith(editControllers)
         editControllers.addEventListener('click', async e2 => {
           e2.preventDefault()
-          
+
           if (e2.target.id === 'editBtn') {
             const newContent = editControllers.querySelector('textarea').value
             if (isNoticeAction) {
@@ -131,7 +169,7 @@ export async function render(noticeId) {
         response = await Api.deleteNotice(noticeId)
         displayFeedbackMsg(response, isNoticeAction, actions.delete)
         router.navigate('')
-        
+
       } else if (e.target.id === 'deleteComment') {
         // Delete comment
         isNoticeAction = false
