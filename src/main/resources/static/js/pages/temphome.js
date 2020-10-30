@@ -14,15 +14,15 @@ export async function render(page) {
     for (let i = 0; i < paginatedNotices.length; i++) {
         const card = document.createElement('template')
         card.innerHTML = `
-    <div id="notices" class="notice-container">
-       <div class="notice-item">
-      <div><h3 class="notice-title">${paginatedNotices[i].title}</h3>
-      <button class="btn-sm btn-outline-dark float-right">Edit</button>
-      </div>
-      <div class="lead notice-description">${paginatedNotices[i].content}</div>
-      <div class="float-right blockquote-footer notice-signature">${paginatedNotices[i].account} ${paginatedNotices[i].timestamp}</div>
-      </div>
-    </div>
+          <div id="notices" class="notice-container">
+            <div class="notice-item">
+             <div><h3 class="notice-title"><a href="/#/notice/${paginatedNotices[i].id}">${paginatedNotices[i].title}</a></h3>
+                <button class="btn-sm btn-outline-dark float-right">Edit</button>
+             </div>
+             <div class="lead notice-description">${paginatedNotices[i].content}</div>
+             <div class="float-right blockquote-footer notice-signature">${paginatedNotices[i].account} ${paginatedNotices[i].timestamp}</div>
+          </div>
+        </div>
     `
         elements += card.innerHTML
     }

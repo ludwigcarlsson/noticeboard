@@ -2,9 +2,7 @@ package se.experis.noticeboard.models;
 
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 import javax.persistence.*;
 
@@ -44,6 +42,9 @@ public class Notice {
         return account.getUserName();
     }
 
+    @JsonGetter("accountId")
+    private long accountId() { return account.getId(); }
+
     @ManyToOne
     private Account account;
 
@@ -53,6 +54,7 @@ public class Notice {
     }
 
     @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("timestamp desc")
     private Set<Comment> comments = new HashSet<>();
 
     //GETTERS & SETTERS

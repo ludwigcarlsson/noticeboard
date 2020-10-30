@@ -12,7 +12,7 @@ export async function render(isLoggedIn) {
             </button> 
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup"> 
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="/#/home">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-item nav-link active" href="/#/">Home <span class="sr-only">(current)</span></a>
                     <a class="nav-item nav-link loggedout" href="/#/account/create">Sign up</a>
                     <a class="nav-item nav-link loggedout" href="/#/login">Sign in</a>
                     <a class="nav-item nav-link loggedin" href="/#/logout">Logout</a>
