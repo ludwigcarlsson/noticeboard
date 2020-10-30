@@ -5,28 +5,33 @@ const contentContainer = document.querySelector('#contentContainer')
 const paginationControls = paginate.controls();
 
 export async function render(page) {
-  
-  const notices = await Api.parse(await Api.getAllNotices())
 
-  let paginatedNotices = paginate.paginateItems(notices, paginationControls, 5, page)
-  
-  let elements = ''
-  for(let i = 0; i < paginatedNotices.length; i++) {
-    const card = document.createElement('template')
-    card.innerHTML = `
-    <div style="padding: 10px; border: 1px solid black; font-size: 16px" id="notices">
-      <div style="font-size: 20px"><a href="/#/notice/${paginatedNotices[i].id}">${paginatedNotices[i].title}</a></div>
-      <div>${paginatedNotices[i].content}</div>
-    </div>
+    const notices = await Api.parse(await Api.getAllNotices())
+
+    let paginatedNotices = paginate.paginateItems(notices, paginationControls, 5, page)
+
+    let elements = ''
+    for (let i = 0; i < paginatedNotices.length; i++) {
+        const card = document.createElement('template')
+        card.innerHTML = `
+          <div id="notices" class="notice-container">
+            <div class="notice-item">
+             <div><h3 class="notice-title"><a href="/#/notice/${paginatedNotices[i].id}">${paginatedNotices[i].title}</a></h3>
+                <button class="btn-sm btn-outline-dark float-right">Edit</button>
+             </div>
+             <div class="lead notice-description">${paginatedNotices[i].content}</div>
+             <div class="float-right blockquote-footer notice-signature">${paginatedNotices[i].account} ${paginatedNotices[i].timestamp}</div>
+          </div>
+        </div>
     `
-    elements += card.innerHTML
-  }
+        elements += card.innerHTML
+    }
 
-  contentContainer.innerHTML = `
-    <h1>Home</h1>
+    contentContainer.innerHTML = `
+    <h1 class="text-center">Home</h1>
     ${elements}
   `
-  contentContainer.appendChild(paginationControls)
+    contentContainer.appendChild(paginationControls)
 }
 
 
