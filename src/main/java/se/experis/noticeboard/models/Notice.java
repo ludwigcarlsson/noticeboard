@@ -54,6 +54,7 @@ public class Notice {
     }
 
     @OneToMany(mappedBy = "notice", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("timestamp desc")
     private Set<Comment> comments = new HashSet<>();
 
     //GETTERS & SETTERS
