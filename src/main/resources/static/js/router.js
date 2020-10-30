@@ -6,12 +6,13 @@ import * as header from '/js/header.js'
 import Api from '/js/functions/apiCalls.js'
 import addMessage from '/js/functions/messages.js'
 
-const routes = { 
-  logout: 'logout',
+const routes = {
+  home: '',
+  error: 'error',
   createAccount: 'account/create',
   loginPage: 'login',
+  logout: 'logout',
   createNotice: 'notice/create',
-  home: 'notices'
 }
 
 const requiresAuth = new Set([
@@ -35,6 +36,9 @@ async function setPage() {
   header.render(isLoggedIn)
 
   let page = location.hash.substring(2)
+  const pagePath = page.split('/')
+  page = pagePath[0]
+
   if(!isLoggedIn && requiresAuth.has(page)) {
     addMessage('you must be logged in to view this page')
     location.hash = '/'
@@ -59,7 +63,12 @@ async function setPage() {
     case routes.createNotice:
       createNoticePage.render()
       break;
-    default:
+    case routes.home:
       viewAllNotices.render()
+      break;
+    case routes.error:
+    default:
+      addMessage('404 site not found')
+      // TODO 404 page
   }
 }
