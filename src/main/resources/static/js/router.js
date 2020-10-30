@@ -43,8 +43,12 @@ async function setPage() {
   header.render(isLoggedIn)
 
   let page = location.hash.substring(2)
-  const pagePath = page.split('/')
-  page = pagePath[0]
+  const path = page.split('/')
+  let id
+  if(!isNaN(path[path.length - 1])) {
+    page = path[0]
+    id = path[path.length - 1]
+  }
 
   if(!isLoggedIn && requiresAuth.has(page)) {
     addMessage('you must be logged in to view this page')
@@ -59,6 +63,7 @@ async function setPage() {
     case routes.logout:
       await Api.logout()
       addMessage('you are now logged out')
+      header.render(false)
       break;
     case routes.createAccount:
       createAccountPage.render()
@@ -70,7 +75,7 @@ async function setPage() {
       createNoticePage.render()
       break;
     case routes.notice:
-      viewNotices.render(pagePath[1])
+      viewNotices.render(id)
       break;
     case routes.home:
       viewAllNotices.render(1)

@@ -9,6 +9,11 @@ export async function render(noticeId) {
   const getNoticeResponse = await Api.getNotice(noticeId)
   if (getNoticeResponse.ok) {
     const notice = await Api.parse(getNoticeResponse)
+    const accountResponse = await Api.getAccountId()
+    let accountId
+    if(accountResponse.status === 200) {
+      accountId = await Api.parse(accountResponse)
+    }
 
     const elements = document.createElement('div')
 
@@ -30,6 +35,11 @@ export async function render(noticeId) {
       </div>
     </div>
     `
+    console.log('id', accountId)
+    
+    if(accountId !== notice.accountId) {
+      noticeCard.querySelector('#buttons').remove()
+    }
     elements.appendChild(noticeCard)
 
     for (const comment of notice.comments) {
@@ -51,6 +61,9 @@ export async function render(noticeId) {
         </div>
       </div>
       `
+      if(accountId !== notice.accountId) {
+        card.querySelector('#buttons').remove()
+      }
       elements.appendChild(card)
     }
 
@@ -140,7 +153,7 @@ export async function render(noticeId) {
 
   function displayFeedbackMsg(response, isNoticeAction, action) {
     if (response.ok) {
-      addMessage((isNoticeAction ? 'notice' : 'comment') + ' ' + (action === 'edit' ? 'edited' : 'deleted'))
+      addMessage((isNoticeAction ? 'notice' : 'comment') + ' ' + (action === actions.edit ? 'edited' : 'deleted'))
     } else {
       let reason
       switch (response.status) {
@@ -155,7 +168,7 @@ export async function render(noticeId) {
         default:
           reason = response.status
       }
-      addMessage('error ' + (action === 'edit' ? 'editing ' : 'deleting ') + (isNoticeAction ? 'notice' : 'comment') + ': ' + reason)
+      addMessage('error ' + (action === actions.edit ? 'editing ' : 'deleting ') + (isNoticeAction ? 'notice' : 'comment') + ': ' + reason)
     }
   }
 
