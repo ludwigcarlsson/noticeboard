@@ -32,7 +32,7 @@ Endpoints      | Type |   Description
 
 
 ## License
-WHO CAN USE THIS APP
+[MIT](https://mit-license.org/)
 
 #### Authors
 [Eric Enoksson](https://github.com/Bumpfel), [Oscar Dahlquist](https://github.com/Vattenkruka) and [Ludwig Carlsson](https://github.com/ludwigcarlsson)
